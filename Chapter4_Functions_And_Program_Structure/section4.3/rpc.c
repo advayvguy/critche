@@ -1,0 +1,146 @@
+//just including and defining stuff,
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+#define MAXOP 100
+#define NUMBER '0'
+#define MAXVAL 100
+#define BUFFSIZE 100
+
+//abstraction 1 the main function 
+int getop(char []); //reads the next operator or numeric operand
+double pop(void); //to pop stuff
+void push(double); //to push stuff into a stack
+
+int main()
+{
+    int type;
+    double op2; //termporarily hold the second operations in case of - and / which is not commutative.
+    char s[MAXOP]; //string buffer to hold the current token
+
+    while ((type = getop(s))!=EOF) //places the next token in s
+    {
+        switch(type)
+        {
+        case NUMBER:
+            push(atof(s));
+            break;
+        case '+':
+            push(pop() + pop());
+            break;
+        case '*':
+            push(pop()*pop());
+            break;
+        case '-':
+            op2 = pop();
+            push(pop()-op2);
+            break;
+        case '/':
+            op2 = pop();
+            if (op2 != 0.0)
+            {
+                push(pop()/op2);
+            }
+            else
+            {
+                printf("error: zero divisor\n");
+            }
+            break;
+        case '\n':
+            printf("\t%.8lf\n",pop()); //pop the one and only value in the stack
+            break;
+        default:
+            printf("error: unknown command %s\n",s);
+            break;
+        }
+    }
+}
+
+//abstraction 0
+int sp = 0; //next free stack position
+double val[MAXVAL]; //value stack
+
+void push (double f)
+{
+    if (sp<MAXVAL)
+    {
+        val[sp++] = f;
+    }
+    else 
+    {
+        printf("error: stack full cant push\n");
+    }
+}
+
+double pop(void)
+{
+    if (sp>0)
+    {
+        return val[--sp]; //sp is pointing to the next plate in the stack (garbage in this case)
+    }
+    else
+    {
+        printf("error: stack is empty");
+        return 0.0;
+    }
+}
+//in this case we are pushing values from s to val.
+
+int getch(void);
+void ungetch(int);
+
+int getop(char s[])
+{
+    int i,c;
+    while((s[0] = c = getch()) == ' ' || c =='\t') // here we assign s[0] as c
+    {
+        ;
+    }
+    s[1] = '\0';
+    if( !isdigit(c) && c!='.')
+        return c;
+    i=0;
+    if (isdigit(c))
+    {
+        while(isdigit(s[++i] = c = getch()))
+        {
+            ;
+        }
+    }
+    if (c == '.')
+    {
+        while (isdigit(s[++i] = c = getch()))
+        {
+            ;
+        }
+    }
+    s[i] = '\0';
+    if (c !=EOF)
+    {
+        ungetch(c);
+    }
+    return NUMBER;
+}
+
+//I need to understand this whole thing again.
+
+char buf[BUFFSIZE];
+int bufp = 0; //next free position
+
+int getch()
+{
+    return (bufp >0) ? buf[--bufp] : getchar();
+}
+
+void ungetch(int c)
+{
+    if (bufp > BUFFSIZE)
+    {
+        printf("ungetch: too many characters");
+    }
+    else
+    {
+        buf[bufp++] = c;
+    }
+}

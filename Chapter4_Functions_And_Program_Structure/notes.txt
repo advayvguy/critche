@@ -1,0 +1,5 @@
+if return type is not specified, the program assumes it to be an int. 
+the return value is converted to the type of function.
+turns out you can declare functions in the main function as well. 
+a function is implicitly declared by its first appearance 
+return (int) atof(s) -> converts atofs type to int

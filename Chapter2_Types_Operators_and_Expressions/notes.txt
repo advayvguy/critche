@@ -1,0 +1,63 @@
+->dont use '_' in the beginning while naming long variables (because some libraries start that way)
+->lowercase for variables 
+->uppercase for constants
+->you cant choose float else etc as variable names
+->short variables for local and longer ones for external variables
+
+DATA TYPES AND SIZES-
+
+char- 1 byte or 8 bits
+short is often 16 bits
+int is 16 or 32
+whereas long is atleast 32 (as of when this book was written)
+sign chars - from -127 to 128 (wasnt it from -128 to 127)
+
+float- single precision floating point
+double- double precision floating point
+long double- multi precision floating point #need to research about what precision really means here
+
+naming constants-
+0xFUL-
+here 0x is the hexadecimal system- 0 to 15 (0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F)
+F represents 15 in decimal 
+U represents unsigned
+L represents long
+
+'\0' represents null value. the charecter 0 is stored as 48 in ascii.
+#define MAXLINE 1000 -> this is read during the compilation process itself, not during the run time.
+
+we need one more physical storage for the '\0' end of the string charecter.
+
+slrlen(s) is used to scan the length of the string.
+and it is obvious that a string is an array becuase we need a '\0'. (you need to include <string.h>)
+
+'x' is the ascii equivalent of the charecter x. it is not the same as "x"
+
+you can declare float as 1.0e-5
+
+const double e -> e value cannot be changed later.
+
+in case of && and || evaluation is done from left to right.
+
+in <ctype.h>
+tolower(C) returns the lowercase of c. Absolutely useless i must say.
+
+by definition the charecter does not return negative values 
+
+functions like isdigit() might return non zero values if true (i dont know why though) unline bool operators.
+
+priority order
+
+long double>double>float>long>int>short/char (really the one which holds more bits is obviously more favoured)
+double precision is more expensive.
+
+if we have int i and char c and we say i = c and c = i; nothing happens here to c because c only has 8 bits worth of info. think of it as
+pouring a glass of water in a jug and pouring it back. things dont change.
+
+if n = 5
+x = n++ sets x to 5
+whereas x = ++n sets x to 6.
+n++ increments the value of x after the value is used and in the case of ++n, before the value is used.
+
+x *= y+1 -> x = x*(y+1)
+not x*y +1

@@ -1,0 +1,3 @@
+D1)  why int main?
+    isnt the print function print a string value
+

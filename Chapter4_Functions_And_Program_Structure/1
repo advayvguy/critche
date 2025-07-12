@@ -1,0 +1,23 @@
+set number
+syntax on
+set wrap
+set ruler
+set showmode
+set background=dark
+set relativenumber
+set termguicolors
+
+call plug#begin('~/.vim/plugged')
+Plug 'jiangmiao/auto-pairs'
+Plug 'vim-airline/vim-airline'
+Plug 'dracula/vim'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'morhetz/gruvbox'
+call plug#end()
+
+colorscheme dracula
+
+nnoremap tt :terminal<CR>
+tnoremap nn <C-\><C-n>
+
+nnoremap <F5> :w<CR>:!gcc % -o %< && ./%<<CR>

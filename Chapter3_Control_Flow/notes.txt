@@ -1,0 +1,3 @@
+';' is used to terminate the sentences in c, not seperate them
+brackets and braces are used to group declarations together
+-> its a good idea to use braces with nested ifs. c doesnt follow tabs, it follows braces.

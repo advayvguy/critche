@@ -1,0 +1,5 @@
+#important ideas of C has been incorporated from BCPL
+
+C does not have features to directly deal with objects, ig that is why we include stdio (standard input and output)
+
+independant of any computer architecture
