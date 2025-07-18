@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-=======
-//this is nice
->>>>>>> main
 #include <stdio.h>
+//check
 
 int main()
 {
