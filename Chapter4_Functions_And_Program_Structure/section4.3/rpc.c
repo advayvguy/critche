@@ -41,3 +41,47 @@ int getop(char s[])
 	}
 	return NUMBER;
 }
+
+char buf[BUFSIZE]; 
+int bufp;
+
+int getch(void)
+{
+	return (bufp > 0) ? buf[--bufp] : getchr();
+}
+
+void ungetch(int c)
+{
+	if(bufp >= BUFSIZE)
+	{
+		printf("untgetch: too many characters");
+	}
+	else
+	{
+		buf[bufp++] = c;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
