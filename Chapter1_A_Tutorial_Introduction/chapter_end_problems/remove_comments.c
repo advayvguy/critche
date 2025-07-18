@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+//this is nice
+>>>>>>> main
 #include <stdio.h>
 
 int main()
