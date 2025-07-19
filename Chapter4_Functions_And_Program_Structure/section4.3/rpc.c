@@ -29,12 +29,12 @@ int getop(char s[])
 	int i,c;
 	while((s[0] = c = getch()) == ' ' || c == '\t')
 	{
-		;
+		; //we are eating the spaces here. now s = {_} 'just a space'.
 	}
 	s[1] = '\0';
 	if (!isdigit(c) && c != '.')
 	{
-		return c; //not a number so probably a sumbol
+		return c; //not a number so probably a symbol or a character we dont know about.
 	}
 	i = 0;
 	if (isdigit(c))
@@ -54,7 +54,7 @@ int getop(char s[])
 	s[i] = '\0';
 	if (c != EOF)
 	{
-		ungetch(c);
+		ungetch(c); //works if there is a 45+ (a symbol right after the operands)
 	}
 	return NUMBER;
 }
