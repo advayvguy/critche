@@ -160,7 +160,7 @@ int main()
 					init[(int)op2] = 1;
 					check = 0;
 				}
-				else 
+				else
 				{
 					printf("error: you cant initialize a number to a number or existing variable\n");
 				}
