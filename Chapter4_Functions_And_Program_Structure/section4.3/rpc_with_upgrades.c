@@ -113,7 +113,7 @@ double pop(void)
 		return 0.0;
 	}
 }
-
+//below routine is for 'unget' the whole line
 //void ungets(char s[])
 //{
 //	for(int i =0; i < strlen(s); i++)

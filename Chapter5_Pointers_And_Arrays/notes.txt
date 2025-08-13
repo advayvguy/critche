@@ -1,0 +1,12 @@
+Pointer- A variable that contains the adress of another variable
+
+One of the major changes in ANSI C is to make rules about how pointers can be manipulated.
+
+*ip - value of the address a pointer is pointing to. (also called derefrencing)
+ip-  the address of the register stored in the pointer.
+
+(*ip)++ -increments the value stored in the cell by one
+*ip++ -increments the value stored in the pointer.
+
+&a- prints the address of the variable a.
+
