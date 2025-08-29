@@ -10,3 +10,23 @@ ip-  the address of the register stored in the pointer.
 
 &a- prints the address of the variable a.
 
+in an array a[i] represents *(a+i) here 'a' is the pointer which points to the first element of the array a;
+
+so basically a = &a[0];
+
+char a[] = "hello" -> the actual array;
+
+a -> the pointer which points to the first element of the array a[]
+when you say printf("%s\n",a)
+
+its just printing the contents of the cell a[0] to a[strlen(a) -1]
+
+this code prints 'h'-
+#include <stdio.h>
+
+int main()
+{
+	char a[] = "hello";
+	printf("%c\n",*a);
+}
+
