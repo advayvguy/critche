@@ -59,7 +59,7 @@ int readl(char *lineptr[], char *allocbuf, int size)
 			}
 			else
 			{
-				printf("this aint looking good\n");
+				printf("Stack aint got no space for that");
 				break;
 			}
 			line[len] = '\0';
@@ -96,7 +96,7 @@ void q_sort(char **v, int left, int right) //char **p = lineptr means p is point
 	last = left;
 	for (i = left+1; i<= right; i++)
 	{
-		if(strcmp(*(v+i),*(v+left)) < 0)
+		if(strcmp(*(v+i),*(v+left)) < 0) //lexographical comparision
 		{
 			swap(v,++last,i);
 		}
@@ -108,7 +108,7 @@ void q_sort(char **v, int left, int right) //char **p = lineptr means p is point
 
 int main()
 {
-	char allocbuf[CHUNK];
+	char allocbuf[CHUNK]; //main providing the stack reduces the function call overhead.
 	int nlines = readl(lineptr,allocbuf,CHUNK);
 		
 	if (nlines < 0)
