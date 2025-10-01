@@ -1,0 +1,8 @@
+char s[] = "hello";   // s is an array of 6 chars {'h','e','l','l','o','\0'}
+char *p   = "hello";  // p is a pointer to a string literal in read-only memory
+
+{
+    char *p = "hello"
+    *(++p) = 'd'
+    -> this is undefined
+}
