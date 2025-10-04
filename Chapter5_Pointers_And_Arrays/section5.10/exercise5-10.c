@@ -1,10 +1,9 @@
 //also a revision of that concept.
 //rpc with no space handling.
-//the code is pretty inelegant.
+//must be one of the worst pieces of code ever written.
 #include <stdio.h>
 #include <string.h>
-#define MAXBUF 10000
-
+#define MAXBUF 100000
 int check_and_add(char *str, int *bufc)
 {
     int num = 0,i=0;
@@ -33,7 +32,7 @@ int check_and_add(char *str, int *bufc)
     return 1;
 }
 
-int operate(int a, int b, char c)
+int operate(int a, int b, char c, int *check)
 {
     switch(c)
     {
@@ -51,11 +50,16 @@ int operate(int a, int b, char c)
         }
         case '/':
         {
+            if (a == 0)
+            {
+                *check = 0;
+                return 0;
+            }
             return b/a;
         }
         default:
         {
-            printf("error operator");
+            printf("error operator\n");
             return 0;
             break;
         }
@@ -65,6 +69,7 @@ int operate(int a, int b, char c)
 int main(int argc , char **argv)
 {
     int bufp = 0;
+    int divbyzero = 1;
     int buf[MAXBUF];
     for(int i = 1; i < argc; i++)
     {
@@ -75,10 +80,16 @@ int main(int argc , char **argv)
         else if (bufp < 2)
         {
             printf("not enough operands\n");
+            return 0;
         }
         else
         {
-            int ans = operate(*(buf + (bufp - 2)), *(buf + (bufp - 1)), **(argv + i));
+            int ans = operate(*(buf + (bufp - 2)), *(buf + (bufp - 1)), **(argv + i), &divbyzero);
+            if (!divbyzero)
+            {
+                printf("cant divide by 0\n");
+                return 0;
+            }
             *(buf + (bufp - 2)) = ans;
             bufp--;
         }
@@ -89,6 +100,7 @@ int main(int argc , char **argv)
     }
     else
     {
-        printf("error in expression\n");
+        printf("not enough operators\n");
     }
+    return 0;
 }
