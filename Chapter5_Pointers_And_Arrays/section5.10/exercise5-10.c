@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #define MAXBUF 100000
+
 int check_and_add(char *str, int *bufc)
 {
     int num = 0,i=0;
@@ -69,7 +70,6 @@ int operate(int a, int b, char c, int *check)
 int main(int argc , char **argv)
 {
     int bufp = 0;
-    int divbyzero = 1;
     int buf[MAXBUF];
     for(int i = 1; i < argc; i++)
     {
@@ -84,6 +84,7 @@ int main(int argc , char **argv)
         }
         else
         {
+            int divbyzero = 1;
             int ans = operate(*(buf + (bufp - 2)), *(buf + (bufp - 1)), **(argv + i), &divbyzero);
             if (!divbyzero)
             {
