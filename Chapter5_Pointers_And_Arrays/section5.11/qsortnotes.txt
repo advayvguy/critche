@@ -1,0 +1,39 @@
+[3,6,8,1,5]
+
+pivot -> 3
+
+6,8,1,5
+|     |
+p1    p2
+
+s1 - state of pivot 1, s2 - state of pivot 2
+if p1 > pivot -> wait; else move forward 
+if p2 < pivot -> wait; else move backward
+s1 = 1, s2 = 0
+
+6,8,1,5
+|   | 
+p1  p2
+
+s1 = 1, s2 = 1 indicates a switch
+
+1,8,6,5
+|   |
+p1  p2
+
+s1 = 0, s2 = 0
+
+1,8,6,5
+  | |
+  p1 p2
+
+s1 = 1, s2 = 0
+
+1,8,6,5
+  |
+  p1,p2
+
+indicates a split in this order
+1          3            8,6,5
+
+do this recursively until there is <= 1 element in the array
