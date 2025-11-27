@@ -1,0 +1,2 @@
+This     is   a      long    line     of    text     with    irregular      spacing      and   some     tabs		in		between     to     test    the       entab      logic         properly.
+
