@@ -10,6 +10,15 @@ dcl- parse C declaration to an output which is human readable
 undcl- parse human readable input to a declaration
 */
 
+/*
+    betterments-
+        to make the code more modular <- number 1 priority
+        to handle paranthesis matching
+        function type declarations shouldnt be hard either, just need print statements
+        if you encounter const/static/global then read the next word ahead of the white spaces
+        writing undcl shouldnt be too hard
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
