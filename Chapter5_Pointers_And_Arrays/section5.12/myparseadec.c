@@ -28,22 +28,35 @@ undcl- parse human readable input to a declaration
 
 enum Ops {pointer, array, function};
 
-int get_line(char *s)
+//getline looking kinda stacked rn
+int get_line(char *s, char *type)
 {
-    int i,c; 
-    for (i = 0; i < MAXCHAR && (c = getchar()) != '\n'; i++)
+    int i = 0,c; 
+    while ((c = getchar()) == ' ' || c == '\t');
+    type[i++] = c;
+    while ((c = getchar()) != ' ' &&  c != '\t' && c != '\n')
     {
-        s[i] = c;
+        type[i++] = c;
+    }
+    type[i] = '\0';
+    i = 0;
+    if (c == '\n' && strcmp(type, "exit") == 0) return -1;
+    else if (c == '\n')
+    {
+        printf("error: declaration doesnt declare anything\n");
+        return -1;
+    }
+    while ((c = getchar()) != '\n' && i < MAXCHAR)
+    {
+        if (c == ' ' || c == '\t') continue;
+        else s[i++] = c;
     }
     s[i] = '\0';
-    if (strcmp(s, "exit") == 0) return -1;
     return i;
 }
 
-void parser(char *s, int first, int last, int flag)
+void parser(char *s, int first, int last, int *F)
 {
-    while (s[first] == ' ' || s[first] == '\t') first++;
-    while (s[last] == ' ' || s[last] == '\t') last--;
     if (s[last] != ']' && s[last] != ')' && s[first] != '*')
     {
         while (first <= last)
@@ -53,34 +66,37 @@ void parser(char *s, int first, int last, int flag)
     }
     else if (s[first] == '(' && s[last] == ')' && s[first + 1] != '*')
     {
-        parser(s, first + 1, last - 1,flag);
+        parser(s, first + 1, last - 1,F);
     }
-    else if (s[first] == '*')
+    if (s[first] == '*')
     {
-        parser(s, first+1, last,0);
+        parser(s, first+1, last,F);
         printf("pointer to ");
     }
-    else if (s[first] == '(' && s[first + 1] == '*' && flag == 0)
+    else if (s[first] == '(' && s[first + 1] == '*' && *F == 0)
     {
-        parser(s, first + 2,last, 1);
+        *F = 1;
+        parser(s, first + 2,last, F);
     }
     else if (s[last] == ')' && s[last - 1] == '(')
     {
-        if (flag == 1)
+        if (*F == 1)
         {
-            parser(s,first, last - 3, 0);
+            *F = 0;
+            parser(s, first, last - 3, F);
             printf("pointer to ");
         }
-        else parser(s, first, last - 2, 0);
+        else parser(s, first, last - 2, F);
         printf("function returning ");
     }
     else if (s[last] == ']')
     {
         if (s[last - 1] == '[')
         {
-            if (flag == 1)
+            if (*F == 1)
             {
-                parser(s, first, last - 3, 0);
+                *F = 0;
+                parser(s, first, last - 3, F);
                 printf("pointer to ");
             }
             else parser(s, first, last - 2, 0);
@@ -96,37 +112,59 @@ void parser(char *s, int first, int last, int flag)
                 place *= 10;
                 last--;
             }
-            if (flag == 1)
+            if (*F == 1)
             {
-                parser(s,first,last-2,0);
+                *F = 0;
+                parser(s, first, last-2, F);
                 printf("pointer to ");
             }
-            else parser(s,first,last-1,0);
+            else parser(s, first, last-1, F);
             printf("array[%d] of ", num);
         }
     }
+}
+
+int check_para(char *s, int first, int last)
+{
+    int stack_check = 0;
+    for (int i = first; i <= last; i++)
+    {
+        if (s[i] == '(') stack_check++;
+        if (s[i] == ')')
+        {
+            stack_check--;
+            if (stack_check < 0) 
+            {
+                printf("error: unexpected \')\'\n");
+                return -1;
+            }
+        }
+    }
+    if (stack_check > 0)
+    {
+        printf("error: unexpected \'(\'\n");
+        return -1;
+    }
+    return 0;
 }
 
 int main()
 {
     char buff[MAXCHAR];
     int len;
+    char type[MAXCHAR];
     printf("----TYPE \"exit\" TO END THE PROGRAM----\n");
-    while ((len = get_line(buff)) >= 0)
+    while ((len = get_line(buff,type)) >= 0)
     {
-        //check 1 satsified:- the input is being read properly here
-
-        char type[MAXCHAR];
-        int i = 0;
-        for (i = 0; buff[i] != '\0' && buff[i] != ' ' && buff[i] != '\t'; i++)
-        {
-            type[i] = buff[i];
-        }
-        type[i] = '\0';
-        //check 2 stisfied:- able to store the type properly here
-
         int last = len - 1;
-        parser(buff,i, last,0);
+        int para_check = check_para(buff,0,last);
+        if (para_check < 0) continue;
+        int flag = 0;
+        int *F = &flag;
+        int i = 0;
+        if (buff[last] == ';') last--;
+        parser(buff, i, last, F);
+        //if (*F < 0) return 1;
         printf("%s\n",type);
     }
 
