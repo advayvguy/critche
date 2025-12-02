@@ -12,11 +12,17 @@ undcl- parse human readable input to a declaration
 
 /*
     betterments-
-        to make the code more modular <- number 1 priority
-        to handle paranthesis matching
-        function type declarations shouldnt be hard either, just need print statements
-        if you encounter const/static/global then read the next word ahead of the white spaces
-        writing undcl shouldnt be too hard
+        ✅ to make the code more modular <- number 1 priority
+        ✅ to handle paranthesis matching
+        ✅ function type declarations shouldnt be hard either, just need print statements
+        ✅ if you encounter const/static/global then read the next word ahead of the white spaces
+*/
+
+/*
+    ill leave this mini project for now, there seem to be quite a few corner cases this cant handle yet
+    eg-
+    char (*(*f))()
+    :- pointer to function accepting *f and returning pointer to function returning char
 */
 
 #include <stdio.h>
@@ -28,24 +34,51 @@ undcl- parse human readable input to a declaration
 
 enum Ops {pointer, array, function};
 
+void reverse(char *s, int len)
+{
+    char t[MAXCHAR];
+    for (int i = 0; i < len; i++)
+    {
+        t[i] = s[len-i-1];
+    }
+    t[len] = '\0';
+    strcpy(s,t);
+}
+
 //getline looking kinda stacked rn
 int get_line(char *s, char *type)
 {
     int i = 0,c; 
     while ((c = getchar()) == ' ' || c == '\t');
     type[i++] = c;
-    while ((c = getchar()) != ' ' &&  c != '\t' && c != '\n')
-    {
-        type[i++] = c;
-    }
+
+    while ((c = getchar()) != ' ' &&  c != '\t' && c != '\n') type[i++] = c;
     type[i] = '\0';
+    
+    if (strcmp(type,"const") == 0 || 
+        strcmp(type,"unsigned") == 0 || 
+        strcmp(type,"signed") == 0 || 
+        strcmp(type,"long") == 0 ||
+        strcmp(type,"global") == 0 ||
+        strcmp(type,"static") == 0
+        )
+    {
+        type[i++] = ' ';
+        while ((c = getchar()) != ' ' &&  c != '\t' && c != '\n') type[i++] = c;
+        type[i] = '\0';
+    }
+
     i = 0;
+    while (c == ' ' || c == '\t') c = getchar();
+    s[i++] = c;
+
     if (c == '\n' && strcmp(type, "exit") == 0) return -1;
     else if (c == '\n')
     {
         printf("error: declaration doesnt declare anything\n");
         return -1;
     }
+
     while ((c = getchar()) != '\n' && i < MAXCHAR)
     {
         if (c == ' ' || c == '\t') continue;
@@ -57,6 +90,8 @@ int get_line(char *s, char *type)
 
 void parser(char *s, int first, int last, int *F)
 {
+    int par_check = 0, par_len = 0,func_check = 0;
+    char par[MAXCHAR];
     if (s[last] != ']' && s[last] != ')' && s[first] != '*')
     {
         while (first <= last)
@@ -64,11 +99,21 @@ void parser(char *s, int first, int last, int *F)
         printf(" :- ");
         return;  
     }
-    else if (s[first] == '(' && s[last] == ')' && s[first + 1] != '*')
+    if (s[last] == ')')
+    {
+        while (s[last-par_len-1] != '(' && last-par_len-1 >= 0)
+        {
+            par[par_len] = s[last-par_len-1];
+            par_len++;
+        }
+        if (s[first] == '(') par_len = 0;
+        par[par_len] = '\0';
+    }
+    if (s[first] == '(' && s[last] == ')' && s[last-1-par_len] != '(')
     {
         parser(s, first + 1, last - 1,F);
     }
-    if (s[first] == '*')
+    else if (s[first] == '*')
     {
         parser(s, first+1, last,F);
         printf("pointer to ");
@@ -78,16 +123,23 @@ void parser(char *s, int first, int last, int *F)
         *F = 1;
         parser(s, first + 2,last, F);
     }
-    else if (s[last] == ')' && s[last - 1] == '(')
+    else if (s[last] == ')' && s[last - 1-par_len] == '(')
     {
         if (*F == 1)
         {
             *F = 0;
-            parser(s, first, last - 3, F);
+            parser(s, first, last - 3-par_len, F);
             printf("pointer to ");
         }
-        else parser(s, first, last - 2, F);
-        printf("function returning ");
+        else parser(s, first, last - 2-par_len, F);
+        if (par_len == 0) printf("function returning ");
+        else
+        {
+            printf("function accepting ");
+            reverse(par, par_len);
+            printf("%s ",par);
+            printf("and returning ");
+        }
     }
     else if (s[last] == ']')
     {
@@ -126,23 +178,38 @@ void parser(char *s, int first, int last, int *F)
 
 int check_para(char *s, int first, int last)
 {
-    int stack_check = 0;
+    int stack_check_1 = 0, stack_check_2 = 0;
     for (int i = first; i <= last; i++)
     {
-        if (s[i] == '(') stack_check++;
+        if (s[i] == '(') stack_check_1++;
+        if (s[i] == '[') stack_check_2++;
         if (s[i] == ')')
         {
-            stack_check--;
-            if (stack_check < 0) 
+            stack_check_1--;
+            if (stack_check_1 < 0) 
             {
-                printf("error: unexpected \')\'\n");
+                printf("error: paranthesis mismatch, expected- \'(\'\n");
+                return -1;
+            }
+        }
+        if (s[i] == ']')
+        {
+            stack_check_2--;
+            if (stack_check_2 < 0)
+            {
+                printf("error: paranthesis mismatch, expected- \'[\'\n");
                 return -1;
             }
         }
     }
-    if (stack_check > 0)
+    if (stack_check_1 > 0)
     {
-        printf("error: unexpected \'(\'\n");
+        printf("error: paranthesis mismatch, expected-  \')\'\n");
+        return -1;
+    }
+    if (stack_check_2 > 0)
+    {
+        printf("error: paranthesis mismatch, expected- \']\'\n");
         return -1;
     }
     return 0;
