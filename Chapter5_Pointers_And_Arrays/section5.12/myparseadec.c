@@ -19,12 +19,8 @@ undcl- parse human readable input to a declaration
 */
 
 /*
-    ill leave this mini project for now, there seem to be quite a few corner cases this cant handle yet
-    eg-
-    char (*(*f))()
-    :- pointer to function accepting *f and returning pointer to function returning char
+    mostly functional in its domain, altough i rekon that the code could have been a little more cleaner.
 */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -106,7 +102,7 @@ void parser(char *s, int first, int last, int *F)
             par[par_len] = s[last-par_len-1];
             par_len++;
         }
-        if (s[first] == '(') par_len = 0;
+        if (first == last - par_len-1) par_len = 0;
         par[par_len] = '\0';
     }
     if (s[first] == '(' && s[last] == ')' && s[last-1-par_len] != '(')
