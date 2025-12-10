@@ -1,0 +1,38 @@
+#include <stdio.h>
+#define MAX 5
+
+/* Outer comment with keywords int float
+   /* Inner nested comment char double */
+   End of comment */
+
+int main() {
+    int i, j, sum = 0;
+    float avg = 0.0;
+    char c = 'x';
+
+    for (i = 0; i < MAX; i++) {
+        for (j = 0; j < MAX; j++) {
+            sum += i + j;
+        }
+    }
+
+    if (sum > 10) {
+        avg = (float)sum / (MAX * 2);
+    } else {
+        avg = 0.0;
+    }
+
+    do {
+        sum--;
+    } while (sum > 0);
+
+    switch (sum) {
+        case 0: break;
+        default: continue;
+    }
+
+    char *str = "int float char double if else while for do switch case break continue return";
+
+    return 0;
+}
+
