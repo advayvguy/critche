@@ -86,6 +86,7 @@ int getword(char *word,int max)
         word[i++] = c;
         while ((c = getch()) != '\"')
         {
+            if (c == '\\') getch();
             if (c == EOF) return EOF;
         }
     }
@@ -94,6 +95,7 @@ int getword(char *word,int max)
         word[i++] = c;
         while ((c = getch()) != '\'')
         {
+            if (c == '\\') getch();
             if (c == EOF) return EOF;
         }
     }
@@ -144,7 +146,7 @@ int getword(char *word,int max)
         else 
         {
             c = getch();
-            while (isalpha(c) && i < MAXWORD)
+            while (c != ' ' && c != '\t' && c!= '\n' && c != '(' && c != '[' && c != '\'' && c != '{' && c != '\"' && c != ')' && c != ']' && c != '}' && c != ';' && i < MAXWORD)
             {
                 word[i++] = c;
                 c = getch();

@@ -1,37 +1,59 @@
 #include <stdio.h>
-#define MAX 5
+#define SIZE 5
+#define KEYWORDS int float char double struct union if else while for do switch case break continue return
 
-/* Outer comment with keywords int float
-   /* Inner nested comment char double */
-   End of comment */
+/* Outer comment with int float char double if else while for do switch case break continue return
+   /* Nested comment inside with int float char double if else while for do switch case break continue return */
+   End outer comment
+*/
+
+/* Multi-line tricky comment
+   /* Another nested comment */
+   End of multi-line
+*/
 
 int main() {
-    int i, j, sum = 0;
+    int i, j, total = 0;
     float avg = 0.0;
-    char c = 'x';
+    double dval = 2.0;
+    char ch1 = 'x', ch2 = '\'', ch3 = '\\';
 
-    for (i = 0; i < MAX; i++) {
-        for (j = 0; j < MAX; j++) {
-            sum += i + j;
+    struct coords {
+        int x;
+        int y;
+        float z;
+    } p1, p2;
+
+    union values {
+        int i;
+        float f;
+        char c;
+        double d;
+    } u;
+
+    for (i = 0; i < SIZE; i++) {
+        for (j = 0; j < SIZE; j++) {
+            total += i + j;
+            if (total % 2 == 0) {
+                continue;
+            } else {
+                break;
+            }
         }
     }
 
-    if (sum > 10) {
-        avg = (float)sum / (MAX * 2);
-    } else {
-        avg = 0.0;
-    }
-
     do {
-        sum--;
-    } while (sum > 0);
+        total--;
+    } while (total > 0);
 
-    switch (sum) {
+    switch (total) {
         case 0: break;
         default: continue;
     }
 
-    char *str = "int float char double if else while for do switch case break continue return";
+    char *str1 = "int float char double if else while for do switch case break continue return \"nested \\\"quotes\\\"\"";
+    char *str2 = "/* not a comment */ int float char double if else while for do switch case break continue return";
+    char *str3 = "escaped \\\" int float char double if else while for do switch case break continue return";
 
     return 0;
 }
