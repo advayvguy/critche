@@ -1,0 +1,15 @@
+--------------------------------------------------
+13 apple
+12 banana
+10 orange
+10 grape
+10 mango
+9 kiwi
+8 lime
+8 lemon
+7 blueberry
+7 raspberry
+7 strawberry
+6 pear
+6 peach
+5 plum

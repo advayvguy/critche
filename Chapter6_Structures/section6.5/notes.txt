@@ -1,0 +1,14 @@
+binary tree-
+
+each structure(node) will have-
+pointer to the text of the word
+count of number of occurances
+pointer to the left child node
+pointer to the right child node
+
+no node may have more than 2 children, only one or none is valid
+The nodes are maintained so that at any node the left subtree contains only words that are
+lexicographically less than the word at the node, and the right subtree contains only words that are
+greater.
+
+It is illegal for a structure to contain an instance of itself, but

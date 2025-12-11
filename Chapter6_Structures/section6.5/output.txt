@@ -1,0 +1,21 @@
+1) activity- 6 
+2) advay- 1 2 7 
+3) am- 1 
+4) big- 4 5 
+5) bits- 2 3 4 
+6) called- 6 
+7) center- 6 
+8) facilites- 3 
+9) goa- 2 3 4 
+10) has- 4 
+11) hello- 1 
+12) i- 1 
+13) institute- 3 
+14) its- 5 6 
+15) lot- 3 
+16) nice- 3 
+17) playground- 4 
+18) singh- 1 2 
+19) student- 6 
+20) studies- 2 
+21) very- 5 
