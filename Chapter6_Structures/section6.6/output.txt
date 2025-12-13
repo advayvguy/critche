@@ -1,0 +1,20 @@
+Initial chain:
+gq 300
+di 200
+aa 100
+
+Delete gq (head):
+di 200
+aa 100
+
+Delete di (middle):
+aa 100
+
+Delete aa (tail):
+
+Delete non-existent key:
+undef(xxx) = -1
+
+Reinsert test:
+aa 800
+gq 900

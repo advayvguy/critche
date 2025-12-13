@@ -1,0 +1,21 @@
+#define max 100
+#define min 50
+max,min;
+
+printf("max+min",max+min);
+'max + min 
+= max - min'
+
+#define max 20
+max 
+/* #define max 30 */
+
+int add = max + min;
+
+#define maxbufsize 500
+int buff[maxbufsize];
+
+//define max 360
+max;"
+max + min" /* min + max */
+max + min;
