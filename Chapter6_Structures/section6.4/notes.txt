@@ -1,0 +1,18 @@
+struct check
+{
+    int c1;
+    char c2;
+}
+
+sizeof(check) != 5 but = 8;
+we take the nearest multiple of 4 in this case;
+
+struct check
+{
+    double c1;
+    char c2;
+}
+
+sizeof(check) != 12 but = 16;
+
+paddings are taken in the multiples of the sizeof the largest element in the struct.

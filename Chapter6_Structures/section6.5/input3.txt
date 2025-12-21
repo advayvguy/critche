@@ -1,0 +1,26 @@
+#include <stdio.h>
+#define MAX 100 apple_count_check5
+
+int apple_count = 10;
+int apple_weight = 20;
+int banana_count = 15;
+int banana_weight = 25;
+int apricot_count = 5;
+int apricot_weight = 7;
+
+// single-line comment with apple_count_check
+/* multi-line comment apple_check1
+   banana_count apricot_count, apple_check2
+*/
+
+char *str = "apple_count_check3 banana_count apricot_count";
+char c = 'x apple_count_check4';
+
+int main() {
+    int apple_size = 12;
+    int banana_size = 18;
+    int apricot_size = 6;
+    int another_var = 42;
+    return 0;
+}
+
